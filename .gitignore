@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Редакторы
+.vscode/
+.idea/
+
+# Архивы
+*.zip
