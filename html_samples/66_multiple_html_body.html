@@ -1,0 +1,13 @@
+<!--
+  ТЕСТ: Повторные теги html и body с атрибутами.
+  БРАУЗЕР: Второй html и второй body не создают элементов, их атрибуты, которых еще нет, добавляются
+    к существующим: html lang='en' data-second='1', body class='first' id='b'. В body оба p.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<body class="first">
+<p>one</p>
+<html lang="de" data-second="1">
+<body class="second" id="b">
+<p>two</p>
+</body></html>

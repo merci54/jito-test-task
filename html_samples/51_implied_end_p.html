@@ -1,0 +1,12 @@
+<!--
+  ТЕСТ: p без закрывающих тегов, за которыми идут p, div, ul, h2, hr.
+  БРАУЗЕР: Новый p и блочные элементы (div, ul, h1-h6, hr, section и т.д.) закрывают открытый p. Все
+    p соседи в body, ни один не вложен в другой.
+-->
+<!DOCTYPE html>
+<p>one<p>two
+<p>three<div>block</div>
+<p>four<ul><li>x</li></ul>
+<p>five<h2>heading</h2>
+<p>six<hr>
+<p>seven

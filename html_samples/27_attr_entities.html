@@ -1,0 +1,10 @@
+<!--
+  ТЕСТ: HTML-сущности в значениях атрибутов, включая старую сущность без точки с запятой.
+  БРАУЗЕР: Сущности в атрибутах декодируются: href='/search?a=1&b=2', title='"quoted" <tag>'. Особый
+    случай: &copy без ; перед = (или буквой/цифрой) в атрибуте НЕ декодируется:
+    href='/x?a=1&copy=2'. С ; декодируется: '/x?a=1©=2'. Без кавычек: title='&unquoted>'.
+-->
+<a href="/search?a=1&amp;b=2" title="&quot;quoted&quot; &lt;tag&gt;">entities</a>
+<a href="/x?a=1&copy=2">legacy no-semicolon</a>
+<a href="/x?a=1&copy;=2">with semicolon</a>
+<a title=&amp;unquoted&gt;>unquoted</a>

@@ -1,0 +1,7 @@
+<!--
+  ТЕСТ: Нет doctype (quirks mode) и table сразу после открытого p.
+  БРАУЗЕР: Без doctype документ в quirks mode, и в нем table НЕ закрывает p: p -> ['text', table ->
+    tbody -> tr -> td 'cell']. С doctype html p закрылся бы перед table.
+-->
+<p>text
+<table><tr><td>cell</td></tr></table>

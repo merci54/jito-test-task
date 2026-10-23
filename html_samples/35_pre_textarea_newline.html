@@ -1,0 +1,15 @@
+<!--
+  ТЕСТ: Перевод строки сразу после открывающего pre, textarea, listing.
+  БРАУЗЕР: Ровно один перевод строки сразу после открывающего тега отбрасывается: первый pre =
+    'first line', второй pre начинается с одного перевода строки, textarea = 'text', listing =
+    'listing'.
+-->
+<pre>
+first line</pre>
+<pre>
+
+two newlines, one is kept</pre>
+<textarea>
+text</textarea>
+<listing>
+listing</listing>

@@ -1,0 +1,10 @@
+<!--
+  ТЕСТ: style с селектором >, закрывающим div и сущностью внутри.
+  БРАУЗЕР: style это сырой текст, как script: > и закрывающий div внутри не теги, '&amp;' не
+    декодируется. style лежит в head, p в body.
+-->
+<style>
+  div > p { color: red; }
+  a[href^="http"]::after { content: "</div> &amp;"; }
+</style>
+<p>styled</p>

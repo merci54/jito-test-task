@@ -1,0 +1,60 @@
+<!--
+  ТЕСТ: Реалистичная страница: head с meta, style и JSON-LD, nav, article, форма, таблица, svg,
+    комментарий, inline script.
+  БРАУЗЕР: Всё разбирается без перестроек, кроме tbody, который появляется в таблице сам. JSON
+    внутри script type=application/ld+json это сырой текст. Хороший итоговый тест, что все части
+    работают вместе.
+-->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Пример страницы &middot; Shop</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .card > h2 { margin: 0; }
+  </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Чайник <b>"}</script>
+</head>
+<body class="page page--home" data-theme="dark">
+  <header>
+    <nav aria-label="Главное меню">
+      <ul>
+        <li><a href="/" class="active">Главная</a></li>
+        <li><a href="/catalog?sort=price&amp;order=asc">Каталог</a></li>
+        <li><a href="/about">О нас</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <article class="card" id="product-1">
+      <h2>Чайник &laquo;Классик&raquo;</h2>
+      <img src="/img/kettle.jpg" alt="Чайник" width="300" height="200" loading="lazy">
+      <p>Цена: <strong>1 299&nbsp;&#8381;</strong> <del>1 599 &#8381;</del></p>
+      <button type="button" class="btn" onclick="addToCart(1)" disabled>В корзину</button>
+    </article>
+    <form action="/subscribe" method="post">
+      <label for="email">Email</label>
+      <input id="email" type="email" name="email" placeholder="you@example.com" required>
+      <select name="freq"><option value="w" selected>Раз в неделю</option><option value="m">Раз в месяц</option></select>
+      <textarea name="comment" rows="3"></textarea>
+      <input type="checkbox" name="agree" checked> Согласен
+      <button>Подписаться</button>
+    </form>
+    <table class="specs">
+      <tr><th>Объем</th><td>1.7 л</td></tr>
+      <tr><th>Мощность</th><td>2200 Вт</td></tr>
+    </table>
+  </main>
+  <footer>
+    <p>&copy; 2026 Shop. <a href="mailto:info@example.com">info@example.com</a></p>
+    <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 0l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z"/></svg>
+  </footer>
+  <!-- analytics -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    if (window.dataLayer.length < 1) { console.log('</div> is fine here'); }
+  </script>
+</body>
+</html>

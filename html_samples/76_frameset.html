@@ -1,0 +1,13 @@
+<!--
+  ТЕСТ: frameset вместо body.
+  БРАУЗЕР: Вместо body создается frameset, body не создается вообще. frame это void-элементы,
+    noframes содержит сырой текст.
+-->
+<!DOCTYPE html>
+<html><head><title>frames</title></head>
+<frameset cols="50%,50%">
+  <frame src="a.html">
+  <frame src="b.html">
+  <noframes>no frames</noframes>
+</frameset>
+</html>

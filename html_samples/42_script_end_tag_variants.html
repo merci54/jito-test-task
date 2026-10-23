@@ -1,0 +1,12 @@
+<!--
+  ТЕСТ: Варианты закрывающего тега script: верхний регистр, пробел перед >, атрибуты, и закрывающий
+    тег script внутри JS-строки.
+  БРАУЗЕР: Первые три script закрываются нормально и лежат в head. В четвертом закрывающий тег
+    внутри строки закрывает script раньше: текст script = 'var d = "', а остаток '"; var notInScript
+    = true;' становится обычным текстом в body. Последний закрывающий script игнорируется.
+-->
+<script>var a = 1;</SCRIPT>
+<script>var b = 2;</script >
+<script>var c = 3;</script foo="bar">
+<script>var d = "</script>"; var notInScript = true;</script>
+<p>after</p>

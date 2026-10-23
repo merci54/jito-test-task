@@ -1,0 +1,11 @@
+<!--
+  ТЕСТ: Второй doctype внутри body.
+  БРАУЗЕР: Второй doctype полностью игнорируется (ошибка парсинга), в body только два p: 'before' и
+    'after'.
+-->
+<!DOCTYPE html>
+<html><body>
+<p>before</p>
+<!DOCTYPE html>
+<p>after</p>
+</body></html>

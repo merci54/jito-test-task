@@ -1,0 +1,7 @@
+<!--
+  ТЕСТ: Незакрытая кавычка в значении атрибута до конца файла.
+  БРАУЗЕР: Весь хвост файла уходит в значение атрибута, а потом тег отбрасывается из-за конца файла.
+    В body только p 'before'.
+-->
+<p>before</p>
+<div class="never closed>text that the browser treats as part of the attribute

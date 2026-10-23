@@ -1,0 +1,9 @@
+<!--
+  ТЕСТ: Неизвестные и пользовательские теги: my-component, foo-bar, foo, x:y, blink.
+  БРАУЗЕР: Неизвестные теги становятся обычными элементами (с дефисом это потенциальный custom
+    element), вложенность сохраняется. x:y это просто имя тега с двоеточием, без пространств имен.
+-->
+<my-component data-x="1"><foo-bar>custom</foo-bar></my-component>
+<foo>unknown</foo>
+<x:y>namespaced-looking</x:y>
+<blink>old</blink>

@@ -1,0 +1,13 @@
+<!--
+  ТЕСТ: Void-элементы во всех формах записи: br, br/, br /, img, input, hr, wbr, area, base, embed,
+    link, meta, source, track, param.
+  БРАУЗЕР: Void-элементы никогда не имеют детей и закрывающего тега, слеш перед > у них просто
+    игнорируется. p содержит 4 текста и 3 br. Текст 'after' не попадает внутрь ни одного
+    void-элемента. base, link, meta, встреченные в body, остаются в body.
+-->
+<p>line<br>break<br/>break<br />break</p>
+<img src="a.png" alt="a">
+<input type="text" value="v">
+<hr>
+<wbr><area><base href="/"><embed src="x"><link rel="icon" href="i.png"><meta name="m" content="c"><source src="s"><track src="t"><param name="p">
+<p>after</p>

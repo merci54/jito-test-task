@@ -1,0 +1,10 @@
+<!--
+  ТЕСТ: template с tr без table и с обычным контентом.
+  БРАУЗЕР: Содержимое template не становится детьми элемента, а лежит в отдельном DocumentFragment
+    (template.content). Внутри разрешено то, что вне контекста нельзя: tr без table сохраняется как
+    есть. Здесь оба template попадают в head, потому что стоят до любого контента body.
+-->
+<!DOCTYPE html>
+<template id="tpl"><tr><td>row</td></tr></template>
+<template id="t2"><p>para <b>bold</b></p></template>
+<p>after</p>

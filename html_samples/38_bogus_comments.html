@@ -1,0 +1,13 @@
+<!--
+  ТЕСТ: Псевдо-комментарии: XML-декларация, <!...>, CDATA в обычном HTML, закрывающий тег с пробелом
+    после слеша, пустой закрывающий тег.
+  БРАУЗЕР: <?...> и <!...> (кроме doctype и настоящих комментариев) становятся Comment до первого >:
+    '?xml version="1.0" encoding="utf-8"?', 'not-a-comment'. CDATA вне SVG/MathML тоже Comment
+    '[CDATA[ x < y ]]'. '</ space>' дает Comment ' space'. '</>' полностью игнорируется, получается
+    текст 'gh'.
+-->
+<?xml version="1.0" encoding="utf-8"?>
+<p>a<!not-a-comment>b</p>
+<p>c<![CDATA[ x < y ]]>d</p>
+<p>e</ space>f</p>
+<p>g</>h</p>

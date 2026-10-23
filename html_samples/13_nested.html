@@ -1,0 +1,6 @@
+<!--
+  ТЕСТ: Обычная корректная вложенность нескольких уровней.
+  БРАУЗЕР: Дерево ровно как в разметке, ничего не перестраивается: div#a -> div#b -> section ->
+    article -> p -> ['Deep ', span -> em -> strong 'text'].
+-->
+<div id="a"><div id="b"><section><article><p>Deep <span><em><strong>text</strong></em></span></p></article></section></div></div>

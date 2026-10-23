@@ -1,0 +1,17 @@
+<!--
+  ТЕСТ: Минимальный корректный документ: doctype, html, head, title, body, h1, p.
+  БРАУЗЕР: Document -> [Comment, DocumentType 'html', html -> [head -> [meta, title 'Simple'], body
+    -> [h1 'Hello', p 'World']]]. Пробельные текстовые узлы между тегами внутри head и body
+    сохраняются.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Simple</title>
+</head>
+<body>
+  <h1>Hello</h1>
+  <p>World</p>
+</body>
+</html>

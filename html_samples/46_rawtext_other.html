@@ -1,0 +1,12 @@
+<!--
+  ТЕСТ: Остальные элементы с сырым текстом: xmp, iframe, noembed, noframes, noscript.
+  БРАУЗЕР: xmp, iframe, noembed, noframes это RAWTEXT: внутри один текстовый узел, теги не
+    разбираются, сущности НЕ декодируются. noscript зависит от того, включены ли скрипты: на обычной
+    странице это тоже сырой текст, а в DOMParser (скрипты выключены) внутри будет настоящий элемент
+    b.
+-->
+<xmp><b>xmp keeps tags as text</b> &amp;</xmp>
+<iframe><p>iframe fallback</p></iframe>
+<noembed><b>noembed</b></noembed>
+<noframes><b>noframes</b></noframes>
+<noscript><b>noscript</b></noscript>

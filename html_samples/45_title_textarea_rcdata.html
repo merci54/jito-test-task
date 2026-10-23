@@ -1,0 +1,7 @@
+<!--
+  ТЕСТ: title и textarea с тегами и сущностями внутри (RCDATA).
+  БРАУЗЕР: Теги внутри не разбираются, но сущности декодируются: title = 'Tom & Jerry <b>not
+    bold</b>' (в head), textarea = 'a < b <i>not italic</i> & done' (в body).
+-->
+<title>Tom &amp; Jerry <b>not bold</b></title>
+<textarea name="t">a &lt; b <i>not italic</i> &amp; done</textarea>

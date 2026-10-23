@@ -1,0 +1,7 @@
+<!--
+  ТЕСТ: Именованные сущности в тексте: amp, lt, gt, quot, apos, nbsp, copy, euro, hellip, laquo,
+    raquo, rarr, AMP, Amp.
+  БРАУЗЕР: Известные сущности декодируются в символы: & < > " ' NBSP © € … « » → &. nbsp это U+00A0,
+    а не обычный пробел. AMP в верхнем регистре тоже валидна, Amp нет и остается текстом '&Amp;'.
+-->
+<p>&amp; &lt; &gt; &quot; &apos; &nbsp; &copy; &euro; &hellip; &laquo; &raquo; &rarr; &AMP; &Amp;</p>

@@ -1,0 +1,9 @@
+<!--
+  ТЕСТ: HTML-элемент p внутри svg, после него SVG-элемент rect.
+  БРАУЗЕР: p выбивает из SVG: svg закрывается после circle, p становится соседом svg в body. Дальше
+    rect уже обычный HTML-элемент 'rect', слеш для него ничего не значит, он остается открытым,
+    закрывающий svg игнорируется, и div 'after' оказывается ВНУТРИ rect.
+-->
+<!DOCTYPE html>
+<svg><circle r="1"/><p>paragraph breaks out</p><rect/></svg>
+<div>after</div>

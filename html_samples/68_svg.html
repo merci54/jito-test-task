@@ -1,0 +1,18 @@
+<!--
+  ТЕСТ: Inline SVG: самозакрывающиеся элементы, camelCase имена тегов и атрибутов, foreignObject с
+    HTML внутри.
+  БРАУЗЕР: Элементы внутри svg в пространстве имен SVG. Слеш перед > в SVG реально закрывает элемент
+    (stop, circle, path пустые). Регистр исправляется по таблице: lineargradient -> linearGradient,
+    foreignobject -> foreignObject, viewbox -> viewBox. Внутри foreignObject снова обычный HTML
+    (div).
+-->
+<!DOCTYPE html>
+<p>icon:
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24">
+  <defs><lineargradient id="g"><stop offset="0"/></lineargradient></defs>
+  <circle cx="12" cy="12" r="10" fill="url(#g)"/>
+  <path d="M0 0L24 24"/>
+  <foreignobject width="10" height="10"><div>html inside svg</div></foreignobject>
+  <text>label</text>
+</svg>
+</p>

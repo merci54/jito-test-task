@@ -1,0 +1,7 @@
+<!--
+  ТЕСТ: Нестандартные имена атрибутов: data-*, aria-*, @click, :class, v-on:submit.prevent, x.y,
+    _under, #hash.
+  БРАУЗЕР: Имя атрибута это любые символы, кроме пробелов, /, >, = и кавычек. Все эти имена
+    сохраняются как есть (в нижнем регистре).
+-->
+<div data-user-id="42" aria-label="label" @click="handler" :class="{a:1}" v-on:submit.prevent="s" x.y="dot" _under="u" #hash="h">x</div>

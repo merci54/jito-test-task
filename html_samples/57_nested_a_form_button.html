@@ -1,0 +1,9 @@
+<!--
+  ТЕСТ: Вложенные a, form и button.
+  БРАУЗЕР: Вложенный a закрывает внешний: a '/1' ('first '), a '/2' ('second'), текст ' tail',
+    лишний закрывающий a игнорируется. Вложенный form игнорируется целиком, input попадает в
+    form#f1. Вложенный button закрывает внешний: два соседних button.
+-->
+<a href="/1">first <a href="/2">second</a> tail</a>
+<form id="f1"><form id="f2"><input name="x"></form></form>
+<button>one<button>two</button></button>

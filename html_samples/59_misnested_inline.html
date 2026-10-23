@@ -1,0 +1,6 @@
+<!--
+  ТЕСТ: Неправильно вложенные инлайн-теги: b и i закрыты в обратном порядке.
+  БРАУЗЕР: Срабатывает adoption agency algorithm: p -> [b -> ['bold ', i 'bold-italic'], i '
+    italic']. Элемент i клонируется после закрытия b.
+-->
+<p><b>bold <i>bold-italic</b> italic</i></p>

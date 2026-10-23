@@ -1,0 +1,8 @@
+<!--
+  ТЕСТ: CDATA внутри SVG и такой же синтаксис в обычном HTML.
+  БРАУЗЕР: Внутри svg CDATA это обычный текст ' a < b && c > d ' без обертки. В обычном HTML тот же
+    синтаксис дает Comment '[CDATA[ in html this is a comment ]]'.
+-->
+<!DOCTYPE html>
+<svg><text><![CDATA[ a < b && c > d ]]></text></svg>
+<p><![CDATA[ in html this is a comment ]]></p>

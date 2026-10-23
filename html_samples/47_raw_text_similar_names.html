@@ -1,0 +1,10 @@
+<!--
+  ТЕСТ: Теги, похожие на script/style (scripts, styled), и почти-закрывающие теги внутри script.
+  БРАУЗЕР: scripts и styled это обычные неизвестные элементы, их содержимое разбирается как HTML (b
+    и i настоящие). Внутри script закрывающие теги scriptx и scrip не закрывают его: нужно точное
+    имя script, за которым идет пробел, / или >.
+-->
+<scripts>not raw: <b>bold</b></scripts>
+<styled><i>italic</i></styled>
+<script>var x = "</scriptx>"; var y = "</scrip>";</script>
+<p>after</p>

@@ -1,0 +1,14 @@
+<!--
+  ТЕСТ: Посторонние теги и текст внутри select и option.
+  БРАУЗЕР: По спецификации до 2025 года парсер выкидывает все теги внутри select, кроме
+    option/optgroup, текст остается: option = 'A bold'. В 2025 спецификацию изменили (customizable
+    select), и новые Chrome/Edge сохраняют div и b. Тест на то, что парсер не падает при любом
+    варианте.
+-->
+<!DOCTYPE html>
+<select>
+  <div>div in select</div>
+  <option>A <b>bold</b></option>
+  text in select
+</select>
+<p>after</p>

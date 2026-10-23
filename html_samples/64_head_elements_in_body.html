@@ -1,0 +1,13 @@
+<!--
+  ТЕСТ: meta, link, style, script, title внутри body.
+  БРАУЗЕР: Элементы, встреченные внутри body, остаются в body, в head они не переносятся.
+-->
+<!DOCTYPE html>
+<html><head><title>t</title></head>
+<body>
+<meta name="late" content="x">
+<link rel="stylesheet" href="late.css">
+<style>p{}</style>
+<script>var late = 1;</script>
+<title>second title</title>
+</body></html>

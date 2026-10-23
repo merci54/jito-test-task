@@ -1,0 +1,14 @@
+<!--
+  ТЕСТ: Полная таблица: caption, colgroup, col, thead, tbody, tfoot, colspan. И таблица с col без
+    colgroup.
+  БРАУЗЕР: Первая таблица сохраняется как написана. Во второй col сам оборачивается в colgroup, а tr
+    в tbody.
+-->
+<table>
+  <caption>Caption</caption>
+  <colgroup><col span="2"><col></colgroup>
+  <thead><tr><th>H1</th><th>H2</th></tr></thead>
+  <tbody><tr><td>1</td><td>2</td></tr></tbody>
+  <tfoot><tr><td colspan="2">foot</td></tr></tfoot>
+</table>
+<table><col><tr><td>implicit colgroup and tbody</td></tr></table>

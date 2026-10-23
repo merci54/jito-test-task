@@ -1,0 +1,15 @@
+<!--
+  ТЕСТ: option и optgroup без закрывающих тегов.
+  БРАУЗЕР: option закрывает предыдущий option, optgroup закрывает открытый option и предыдущий
+    optgroup: select -> [option 'One', option 'Two', optgroup -> [option 'Three', option 'Four'],
+    optgroup -> [option 'Five']].
+-->
+<select name="s">
+  <option value="1">One
+  <option value="2" selected>Two
+  <optgroup label="Group">
+    <option>Three
+    <option>Four
+  <optgroup label="Group 2">
+    <option>Five
+</select>
