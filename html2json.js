@@ -245,8 +245,14 @@ function buildTree(tokens) {
 			const index = stack.findLastIndex(element => element.tag === token.name);
 			if (index > 0) stack.length = index;
 		} else if (token.type === 'text') {
-			if (token.value.trim() === '') continue;
-
+			// пробельный текст с переносом строки - это отступы в коде, их выбрасываем.
+			// одиночный пробел между словами оставляем, внутри <pre> и <textarea> не трогаем ничего
+			const isIndent =
+				/^[ \t\n\r\f]*$/.test(token.value) && token.value.includes('\n');
+			const keepsSpaces = stack.some(
+				el => el.tag === 'pre' || el.tag === 'textarea'
+			);
+			if (isIndent && !keepsSpaces) continue;
 			const last = parent.children[parent.children.length - 1];
 			if (last && last.type === 'text') last.value += token.value;
 			else parent.children.push({ type: 'text', value: token.value });
@@ -260,7 +266,7 @@ function buildTree(tokens) {
 }
 
 function html2json(htmlText) {
-	return buildTree(splitIntoTokens(htmlText));
+	return buildTree(splitIntoTokens(htmlText.replace(/\r\n?/g, '\n')));
 }
 
 function showExample1() {
