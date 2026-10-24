@@ -24,23 +24,25 @@ function parseAttributes(str) {
 // ищет ">", который закрывает тег, пропуская ">" внутри кавычек: <a title="x > y">
 function findTagEnd(text, start) {
 	let quote = null; // какая кавычка сейчас открыта: " или ', null - никакая
+	let prev = ''; // предыдущий непробельный символ вне кавычек
 
 	for (let i = start; i < text.length; i++) {
 		const char = text[i];
 
 		if (quote) {
 			if (char === quote) quote = null; // кавычка закрылась
-		} else if (char === '"' || char === "'") {
-			quote = char; // кавычка открылась
+		} else if ((char === '"' || char === "'") && prev === '=') {
+			quote = char; // кавычка открывает значение, только если стоит сразу после =
 		} else if (char === '>') {
 			return i; // ">" вне кавычек - конец тега
 		}
+
+		if (!quote && !/\s/.test(char)) prev = char;
 	}
 
-	// кавычка не закрылась (например <a href=it's>) - берем первый ">"
+	// кавычка не закрылась до конца текста - берем первый ">"
 	return text.indexOf('>', start);
 }
-
 const VOID_TAGS = [
 	'area',
 	'base',
@@ -100,7 +102,19 @@ const P_CLOSERS = [
 	'pre',
 	'blockquote',
 	'hr',
-	'figure'
+	'figure',
+	'address',
+	'details',
+	'dialog',
+	'fieldset',
+	'figcaption',
+	'hgroup',
+	'menu',
+	'search',
+	'summary',
+	'li',
+	'dd',
+	'dt'
 ];
 const P_STOP_AT = [
 	'button',
@@ -154,7 +168,7 @@ function splitIntoTokens(text) {
 			if (end === -1) break;
 			const name = text
 				.slice(i + 2, end)
-				.trim()
+				.match(/^[^\s\/>]*/)[0]
 				.toLowerCase();
 			tokens.push({ type: 'endTag', name });
 			i = end + 1;
