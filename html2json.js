@@ -15,7 +15,7 @@ function parseAttributes(str) {
 		// при повторе атрибута браузер оставляет первый
 		if (Object.hasOwn(attributes, name)) continue;
 		// сработает только одна группа значения, если ни одна - атрибут без значения
-		attributes[name] = match[2] ?? match[3] ?? match[4] ?? '';
+		attributes[name] = decodeEntities(match[2] ?? match[3] ?? match[4] ?? '');
 	}
 
 	return attributes;
@@ -43,6 +43,44 @@ function findTagEnd(text, start) {
 	// кавычка не закрылась до конца текста - берем первый ">"
 	return text.indexOf('>', start);
 }
+
+const ENTITIES = {
+	amp: '&',
+	lt: '<',
+	gt: '>',
+	quot: '"',
+	apos: "'",
+	nbsp: '\u00A0',
+	copy: '\u00A9',
+	reg: '\u00AE',
+	trade: '\u2122',
+	hellip: '\u2026',
+	mdash: '\u2014',
+	ndash: '\u2013',
+	laquo: '\u00AB',
+	raquo: '\u00BB',
+	euro: '\u20AC',
+	middot: '\u00B7',
+	times: '\u00D7'
+};
+
+function decodeEntities(str) {
+	return str.replace(
+		/&(#[xX][0-9a-fA-F]+|#\d+|[a-zA-Z]+);/g,
+		(match, entity) => {
+			if (entity[0] === '#') {
+				const isHex = entity[1] === 'x' || entity[1] === 'X';
+				const code = parseInt(entity.slice(isHex ? 2 : 1), isHex ? 16 : 10);
+				// fromCodePoint бросает RangeError на числах больше 0x10FFFF
+				const valid =
+					code > 0 && code <= 0x10ffff && !(code >= 0xd800 && code <= 0xdfff);
+				return valid ? String.fromCodePoint(code) : '\uFFFD';
+			}
+			return Object.hasOwn(ENTITIES, entity) ? ENTITIES[entity] : match;
+		}
+	);
+}
+
 const VOID_TAGS = [
 	'area',
 	'base',
@@ -126,6 +164,7 @@ const P_STOP_AT = [
 	'svg',
 	'math'
 ];
+const MAX_DEPTH = 512; // как в Chrome, иначе JSON.stringify падает на очень глубоком HTML
 
 // идем вниз по стеку до границы и закрываем самый нижний подходящий элемент
 // вместе со всем, что открыто над ним
@@ -186,7 +225,9 @@ function splitIntoTokens(text) {
 			const attributes = parseAttributes(
 				inside.slice(nameMatch ? nameMatch[0].length : 0)
 			);
-			tokens.push({ type: 'startTag', name, attributes });
+
+			const selfClosing = /\/\s*$/.test(inside);
+			tokens.push({ type: 'startTag', name, attributes, selfClosing });
 			i = end + 1;
 
 			if (TEXT_TAGS.includes(name)) {
@@ -198,7 +239,11 @@ function splitIntoTokens(text) {
 				// нет закрывающего тега - текст до конца строки
 				const textEnd = match ? match.index : text.length;
 				if (textEnd > i) {
-					tokens.push({ type: 'text', value: text.slice(i, textEnd) });
+					const raw = text.slice(i, textEnd);
+					tokens.push({
+						type: 'text',
+						value: name === 'textarea' ? decodeEntities(raw) : raw
+					});
 				}
 				// сам закрывающий тег не трогаем: на следующем шаге цикла
 				// его разберет обычная ветка '</'
@@ -207,7 +252,7 @@ function splitIntoTokens(text) {
 		} else {
 			let end = text.indexOf('<', i + 1);
 			if (end === -1) end = text.length;
-			tokens.push({ type: 'text', value: text.slice(i, end) });
+			tokens.push({ type: 'text', value: decodeEntities(text.slice(i, end)) });
 			i = end;
 		}
 	}
@@ -240,7 +285,14 @@ function buildTree(tokens) {
 				children: []
 			};
 			parent.children.push(element);
-			if (!VOID_TAGS.includes(token.name)) stack.push(element);
+
+			const inForeign =
+				token.name === 'svg' ||
+				token.name === 'math' ||
+				stack.some(el => el.tag === 'svg' || el.tag === 'math');
+			const closed =
+				VOID_TAGS.includes(token.name) || (inForeign && token.selfClosing);
+			if (!closed && stack.length < MAX_DEPTH) stack.push(element);
 		} else if (token.type === 'endTag') {
 			const index = stack.findLastIndex(element => element.tag === token.name);
 			if (index > 0) stack.length = index;
@@ -256,8 +308,12 @@ function buildTree(tokens) {
 			const last = parent.children[parent.children.length - 1];
 			if (last && last.type === 'text') last.value += token.value;
 			else parent.children.push({ type: 'text', value: token.value });
+		} else if (token.type === 'doctype') {
+			// doctype имеет смысл только в начале документа, повторный браузер игнорирует
+			const hasElements = root.children.some(node => node.type === 'element');
+			if (stack.length === 1 && !hasElements) root.children.push(token);
 		} else {
-			// комментарий или doctype кладем в дерево как есть
+			// комментарий
 			parent.children.push(token);
 		}
 	}
@@ -266,7 +322,13 @@ function buildTree(tokens) {
 }
 
 function html2json(htmlText) {
-	return buildTree(splitIntoTokens(htmlText.replace(/\r\n?/g, '\n')));
+	try {
+		const text = typeof htmlText === 'string' ? htmlText : '';
+		const normalized = text.replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
+		return buildTree(splitIntoTokens(normalized));
+	} catch (error) {
+		return { type: 'error', message: error.message };
+	}
 }
 
 function showExample1() {
@@ -342,11 +404,3 @@ function showExample2() {
 		2
 	);
 }
-
-console.log(
-	JSON.stringify(html2json('<ul><li>One<li>Two<li>Three</ul>'), null, 2)
-);
-console.log(JSON.stringify(html2json('<p>Intro<div>Block</div>'), null, 2));
-console.log(
-	JSON.stringify(html2json('<table><tr><td>1<td>2<tr><td>3</table>'), null, 2)
-);
